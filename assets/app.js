@@ -8,6 +8,31 @@ const docEl = document.getElementById("doc");
 const navListEl = document.getElementById("nav-doc-list");
 const tocEl = document.getElementById("toc-list");
 const searchInput = document.getElementById("search-input");
+const themeToggleBtn = document.getElementById("theme-toggle");
+const themeToggleIcon = themeToggleBtn.querySelector(".theme-toggle-icon");
+const themeToggleText = themeToggleBtn.querySelector(".theme-toggle-text");
+const hljsThemeLink = document.getElementById("hljs-theme");
+
+const THEME_KEY = "theme-preference";
+const HLJS_THEMES = {
+  dark: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css",
+  light: "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-light.min.css",
+};
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  hljsThemeLink.href = HLJS_THEMES[theme];
+  themeToggleIcon.textContent = theme === "light" ? "🌞" : "🌙";
+  themeToggleText.textContent = theme === "light" ? "Mode Terang" : "Mode Gelap";
+  localStorage.setItem(THEME_KEY, theme);
+}
+
+themeToggleBtn.addEventListener("click", () => {
+  const next = document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
+  applyTheme(next);
+});
+
+applyTheme(document.documentElement.getAttribute("data-theme") || "dark");
 
 const cache = {};
 
