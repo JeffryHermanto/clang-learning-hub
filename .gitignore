@@ -1,0 +1,16 @@
+# Compiled C output (mengerjakan mini project di dalam folder ini)
+*.o
+*.obj
+*.out
+*.exe
+a.out
+*.dSYM/
+
+# Debugging / analysis
+*.log
+vgcore.*
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
