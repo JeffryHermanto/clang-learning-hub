@@ -86,7 +86,12 @@ function renderNav(activeId) {
     toggleBtn.className = "nav-toggle" + (doc.id === activeId ? " open" : "");
     toggleBtn.setAttribute("aria-label", "Buka/tutup sub-bagian");
     toggleBtn.textContent = "›";
-    toggleBtn.addEventListener("click", () => {
+    toggleBtn.addEventListener("click", async () => {
+      const opening = !headingsBox.classList.contains("open");
+      if (opening && headingsBox.childElementCount === 0) {
+        const headings = await getHeadings(doc);
+        renderMobileHeadings(doc, headings);
+      }
       headingsBox.classList.toggle("open");
       toggleBtn.classList.toggle("open");
     });
@@ -136,6 +141,24 @@ function extractHeadings(container) {
     el.id = slug;
     headings.push({ text: el.textContent, level: el.tagName === "H2" ? 2 : 3, slug });
   });
+  return headings;
+}
+
+const headingsCache = {};
+
+async function getHeadings(doc) {
+  if (headingsCache[doc.id]) return headingsCache[doc.id];
+  let md = cache[doc.id];
+  if (!md) {
+    const res = await fetch(doc.file);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    md = await res.text();
+    cache[doc.id] = md;
+  }
+  const temp = document.createElement("div");
+  temp.innerHTML = marked.parse(md, { headerIds: false, mangle: false });
+  const headings = extractHeadings(temp);
+  headingsCache[doc.id] = headings;
   return headings;
 }
 
@@ -198,6 +221,7 @@ async function loadDoc(id) {
     });
 
     const headings = extractHeadings(docEl);
+    headingsCache[doc.id] = headings;
     renderToc(doc, headings);
     renderMobileHeadings(doc, headings);
     setupScrollSpy(doc);
