@@ -6,6 +6,8 @@ const DOCS = [
 
 const docEl = document.getElementById("doc");
 const navListEl = document.getElementById("nav-doc-list");
+const quickLinksEl = document.getElementById("quick-links");
+const collapseAllBtn = document.getElementById("collapse-all");
 const tocEl = document.getElementById("toc-list");
 const searchInput = document.getElementById("search-input");
 const themeToggleBtn = document.getElementById("theme-toggle");
@@ -49,25 +51,57 @@ function currentDocId() {
   return DOCS.find((d) => d.id === docId) ? docId : DOCS[0].id;
 }
 
+function renderQuickLinks(activeId) {
+  quickLinksEl.innerHTML = "";
+  DOCS.forEach((doc) => {
+    const a = document.createElement("a");
+    a.className = doc.id === activeId ? "active" : "";
+    a.href = `#${doc.id}`;
+    a.innerHTML = `<span>${doc.icon}</span><span>${doc.title}</span>`;
+    quickLinksEl.appendChild(a);
+  });
+}
+
 function renderNav(activeId) {
   navListEl.innerHTML = "";
   DOCS.forEach((doc) => {
     const wrap = document.createElement("div");
+    wrap.className = "nav-doc-item";
+
+    const row = document.createElement("div");
+    row.className = "nav-doc-row";
 
     const link = document.createElement("a");
     link.className = "nav-doc-link" + (doc.id === activeId ? " active" : "");
     link.href = `#${doc.id}`;
     link.innerHTML = `<span class="icon">${doc.icon}</span><span>${doc.title}</span>`;
-    wrap.appendChild(link);
+    row.appendChild(link);
 
     const headingsBox = document.createElement("div");
     headingsBox.className = "nav-headings" + (doc.id === activeId ? " open" : "");
     headingsBox.id = `nav-headings-${doc.id}`;
-    wrap.appendChild(headingsBox);
 
+    const toggleBtn = document.createElement("button");
+    toggleBtn.type = "button";
+    toggleBtn.className = "nav-toggle" + (doc.id === activeId ? " open" : "");
+    toggleBtn.setAttribute("aria-label", "Buka/tutup sub-bagian");
+    toggleBtn.textContent = "›";
+    toggleBtn.addEventListener("click", () => {
+      headingsBox.classList.toggle("open");
+      toggleBtn.classList.toggle("open");
+    });
+    row.appendChild(toggleBtn);
+
+    wrap.appendChild(row);
+    wrap.appendChild(headingsBox);
     navListEl.appendChild(wrap);
   });
 }
+
+collapseAllBtn.addEventListener("click", () => {
+  navListEl.querySelectorAll(".nav-headings.open").forEach((el) => el.classList.remove("open"));
+  navListEl.querySelectorAll(".nav-toggle.open").forEach((el) => el.classList.remove("open"));
+});
 
 function renderMobileHeadings(doc, headings) {
   const box = document.getElementById(`nav-headings-${doc.id}`);
@@ -134,6 +168,7 @@ async function loadDoc(id) {
   const doc = DOCS.find((d) => d.id === id) || DOCS[0];
 
   renderNav(doc.id);
+  renderQuickLinks(doc.id);
   docEl.innerHTML = `<div class="state-msg">Memuat ${doc.title}...</div>`;
 
   try {

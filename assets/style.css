@@ -97,6 +97,9 @@ a:hover { text-decoration: underline; }
 }
 
 .nav-section-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -104,10 +107,62 @@ a:hover { text-decoration: underline; }
   padding: 16px 8px 6px 8px;
 }
 
+.collapse-all-btn {
+  text-transform: none;
+  letter-spacing: 0;
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 11px;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 0;
+}
+
+.collapse-all-btn:hover {
+  text-decoration: underline;
+}
+
 .nav-doc-list {
   display: flex;
   flex-direction: column;
   gap: 2px;
+}
+
+.nav-doc-row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.nav-doc-row .nav-doc-link {
+  flex: 1;
+  min-width: 0;
+}
+
+.nav-toggle {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: transform 0.15s ease;
+}
+
+.nav-toggle:hover {
+  background: var(--bg-elevated);
+  color: var(--text);
+}
+
+.nav-toggle.open {
+  transform: rotate(90deg);
 }
 
 .nav-doc-link {
@@ -170,6 +225,41 @@ a:hover { text-decoration: underline; }
 .doc {
   max-width: 780px;
   margin: 0 auto;
+}
+
+/* Quick links (Tutorial / Cheatsheet / Mini Project) */
+.quick-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 780px;
+  margin: 0 auto 24px auto;
+}
+
+.quick-links a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text-dim);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.quick-links a:hover {
+  color: var(--text);
+  border-color: var(--accent);
+  text-decoration: none;
+}
+
+.quick-links a.active {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 600;
 }
 
 .doc h1 {
