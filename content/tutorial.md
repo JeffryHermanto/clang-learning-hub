@@ -31,6 +31,42 @@ Penjelasan konsep, bukan cuma baris per baris:
 - `int main(void)` — setiap program C punya satu titik masuk bernama `main`. Sistem operasi yang memanggil fungsi ini saat program dijalankan. `int` di depan berarti fungsi ini mengembalikan kode status ke OS.
 - `return 0;` — konvensi: `0` berarti sukses, non-zero berarti ada error. Bisa dicek di shell dengan `echo $?` setelah program selesai.
 
+### Cara Paling Cepat Menjalankan di Terminal Mac
+
+Mac tidak butuh instalasi compiler terpisah — Apple sudah menyediakan compiler C (`clang`, yang juga bisa dipanggil lewat nama `gcc`) via **Xcode Command Line Tools**. Kalau belum pernah pasang, buka Terminal dan jalankan sekali:
+
+```bash
+xcode-select --install
+```
+
+Setelah itu, simpan kode di atas sebagai `hello.c`, lalu compile dan jalankan dengan dua baris ini:
+
+```bash
+gcc hello.c -o hello
+./hello
+```
+
+- `gcc hello.c -o hello` — compile file `hello.c` menjadi file executable bernama `hello`.
+- `./hello` — jalankan executable tadi. Titik-slash (`./`) wajib karena direktori saat ini biasanya tidak ada di `$PATH`, jadi shell tidak akan otomatis mencari executable di situ.
+
+Bisa juga digabung jadi satu baris pakai `&&` (baris kedua hanya jalan kalau kompilasi sukses):
+
+```bash
+gcc hello.c -o hello && ./hello
+```
+
+**"gcc" itu singkatan apa, dan kenapa bisa dipanggil di Mac padahal katanya Apple pakai clang?**
+
+`GCC` singkatan dari **GNU Compiler Collection** (awalnya "GNU C Compiler", diperluas jadi "Collection" setelah mendukung C++, Fortran, dll) — compiler open-source dari proyek GNU, salah satu compiler C paling populer di dunia Linux.
+
+Tapi di Mac, command `gcc` yang kamu pakai **bukan GCC asli** — itu cuma alias/symlink ke `clang` (compiler bawaan Apple/LLVM). Ini bisa dicek:
+
+```bash
+gcc --version
+```
+
+Outputnya akan menyebut `clang`, bukan `gcc (GCC)`. Apple melakukan ini supaya script dan tutorial lama yang mengetik `gcc` tetap berfungsi, sementara di belakang layar yang jalan adalah `clang`. Flag-flag yang dipakai di tutorial ini (`-Wall`, `-Wextra`, `-g`, `-o`) kompatibel di keduanya, jadi tidak masalah untuk belajar. GCC asli baru akan terpasang kalau kamu instal lewat Homebrew (`brew install gcc`), dan itu pun jadi binary terpisah (mis. `gcc-14`), bukan menimpa `gcc` bawaan sistem.
+
 ### Empat Tahap Kompilasi
 
 Memahami tahap ini membantu debug error compiler:
@@ -39,6 +75,8 @@ Memahami tahap ini membantu debug error compiler:
 2. **Compiling** — kode C diterjemahkan ke assembly.
 3. **Assembling** — assembly diterjemahkan ke object code (biner, `.o`), tapi belum bisa dijalankan sendiri.
 4. **Linking** — object code digabung dengan library (misal implementasi `printf` yang sebenarnya) menjadi satu file executable.
+
+Command sederhana di atas cukup untuk belajar, tapi untuk kerja sehari-hari tambahkan flag berikut supaya compiler membantu menangkap bug lebih awal:
 
 ```bash
 gcc -Wall -Wextra -g program.c -o program
