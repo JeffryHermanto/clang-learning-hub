@@ -10,7 +10,6 @@ const tocEl = document.getElementById("toc-list");
 const searchInput = document.getElementById("search-input");
 const themeToggleBtn = document.getElementById("theme-toggle");
 const themeToggleIcon = themeToggleBtn.querySelector(".theme-toggle-icon");
-const themeToggleText = themeToggleBtn.querySelector(".theme-toggle-text");
 const hljsThemeLink = document.getElementById("hljs-theme");
 
 const THEME_KEY = "theme-preference";
@@ -23,7 +22,7 @@ function applyTheme(theme) {
   document.documentElement.setAttribute("data-theme", theme);
   hljsThemeLink.href = HLJS_THEMES[theme];
   themeToggleIcon.textContent = theme === "light" ? "🌞" : "🌙";
-  themeToggleText.textContent = theme === "light" ? "Mode Terang" : "Mode Gelap";
+  themeToggleBtn.title = theme === "light" ? "Ganti ke mode gelap" : "Ganti ke mode terang";
   localStorage.setItem(THEME_KEY, theme);
 }
 
