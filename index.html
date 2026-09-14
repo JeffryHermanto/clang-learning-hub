@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Belajar C — Tutorial & Cheatsheet</title>
+<link rel="stylesheet" href="assets/style.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">C</div>
+        <div>
+          <div class="title">Belajar C</div>
+          <div class="subtitle">Tutorial &amp; Cheatsheet</div>
+        </div>
+      </div>
+
+      <div class="search-box">
+        <span class="icon">&#128269;</span>
+        <input id="search-input" type="text" placeholder="Cari di halaman ini..." />
+      </div>
+
+      <div class="nav-section-label">Dokumen</div>
+      <nav class="nav-doc-list" id="nav-doc-list"></nav>
+
+      <div class="footer-note">
+        Dibuat untuk belajar bahasa C dari dasar hingga menengah: pointer, struct, manajemen memori, dan file I/O.
+      </div>
+    </aside>
+
+    <main class="content-wrap">
+      <article class="doc" id="doc">
+        <div class="state-msg">Memuat...</div>
+      </article>
+    </main>
+
+    <aside class="toc">
+      <div class="toc-label">Di halaman ini</div>
+      <nav class="toc-list" id="toc-list"></nav>
+    </aside>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/11.1.1/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/c.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
